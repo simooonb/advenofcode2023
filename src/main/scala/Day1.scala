@@ -1,12 +1,15 @@
+import scala.io.Source
+
 object Day1 {
   def main(args: Array[String]): Unit = {
-    val input = ""
-
-    val result = input.split("\n").map(part2).toList
+    val source = Source.fromResource("day1/input.txt")
+    val input  = source.getLines()
+    val result = input.map(part2).toList
 
     println(result)
-
     println(result.sum)
+
+    source.close()
   }
 
   def part1(input: String): Int =
