@@ -101,3 +101,5 @@ pgdata-*/**/*
 .DS_Store
 **/.DS_Store
 .bsp/
+
+src/main/resources/*
