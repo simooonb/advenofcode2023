@@ -70,8 +70,6 @@ object Day3 {
     source.close()
   }
 
-  // part 1
-
   def part1(rows: Array[String]): Int = {
     val engine         = Engine(rows.map(_.toCharArray))
     val allPartNumbers = engine.allNumbers
