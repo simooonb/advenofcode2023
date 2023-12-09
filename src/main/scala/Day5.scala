@@ -75,8 +75,6 @@ object Day5 {
       case _                   => None
     }
 
-    val allSeeds = seedRanges.flatMap(_.allNumbers)
-
     @tailrec
     def step(current: Long, sourceName: String): Long =
       if (sourceName == "location")
@@ -88,9 +86,18 @@ object Day5 {
         step(translated, map.to)
       }
 
-    val locations = allSeeds.map(seed => step(seed, "seed"))
+    var minLocation = Long.MaxValue
 
-    locations.min
+    seedRanges.foreach { seedRange =>
+      (0L to seedRange.length).foreach { i =>
+        val seed     = seedRange.from + i
+        val location = step(seed, "seed")
+        if (location < minLocation)
+          minLocation = location
+      }
+    }
+
+    minLocation
   }
 
   def parse(rows: List[String]): (List[Long], List[Translation]) = {
