@@ -30,27 +30,32 @@ object Day8 {
     source.close()
   }
 
-  def part2(rows: List[String]): Int = {
+  def part2(rows: List[String]): Long = {
     val (instructions, network) = parse(rows)
 
     val ids    = network.map.keys
     val starts = ids.filter(_.endsWith("A")).toList
 
     @tailrec
-    def step(instructionsLeft: List[Instruction], currents: List[String], steps: Int): Int =
-      if (currents.forall(_.endsWith("Z")))
+    def step(instructionsLeft: List[Instruction], current: String, steps: Int): Int =
+      if (current.endsWith("Z"))
         steps
       else {
         val next :: tail = instructionsLeft
-        val moveds       = currents.map(network.move(_, next))
+        val moveds       = network.move(current, next)
         val updatedTail  = if (tail.isEmpty) instructions else tail
-
-        println(s"step(updatedTail, $moveds, ${steps + 1})")
 
         step(updatedTail, moveds, steps + 1)
       }
 
-    step(instructions, starts, 0)
+    val zs = starts.map(step(instructions, _, 0))
+    lcm(zs.map(_.toLong))
+  }
+
+  // nicely copied from stack overflow
+  def lcm(list: Seq[Long]): Long = list.foldLeft(1L) { (a, b) =>
+    b * a /
+      LazyList.iterate((a, b)) { case (x, y) => (y, x % y) }.dropWhile(_._2 != 0).head._1.abs
   }
 
   def part1(rows: List[String]): Int = {
