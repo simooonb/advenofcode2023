@@ -227,9 +227,6 @@ object Day14 {
   def part1(rows: List[String]): Long = {
     val grid = parse(rows)
     grid.everyRoundRockMovesNorth()
-
-    println(grid.str)
-
     grid.totalLoad
   }
 
